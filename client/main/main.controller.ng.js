@@ -1,3 +1,4 @@
+/* jshint -W033 */
 'use strict'
 
 angular.module('mixtapes')
@@ -5,7 +6,15 @@ angular.module('mixtapes')
 
 
 //The list of Mixtapes
-function MixList($scope,$meteor,$location,$reactive){
+function MixList($scope,$meteor,$location,$reactive,$sce){
+
+  //this prints the track uri when you choose a playlist
+  // in the create a mix page
+  $scope.trackdata = function(pickedPlaylist){
+    var track = pickedPlaylist.spotifydata
+    console.log(track)
+    return track
+  }
 
   //list of tracks in mongo database
   $scope.tracks = $meteor.collection(function(){
@@ -16,15 +25,23 @@ function MixList($scope,$meteor,$location,$reactive){
     //create a mixtape
       $scope.tracks.push({
       name: newTrack.name,
-      playlist: newTrack.playlist,
+      playlist: "https://embed.spotify.com/?uri=".concat(newTrack.spotifydata), //spotify data
       authorid: newTrack.authorid, //spotify id
-      authorname: newTrack.authorname //spotify display name
-
+      authorname: newTrack.authorname  //spotify display name
+      // image: newTrack.image //spotify album
     })
     $scope.newTrack = {}
     $location.path('/mymixes')
   }//end createMixTape
 
+  //this add trust to a url for iframe
+  $scope.trustMixTape = function(track){
+    return $sce.trustAsResourceUrl(track.playlist)
+  }
+  $scope.mixUris = $scope.tracks.filter(function(item){
+    console.log("your items",item)
+    return item.playlist
+  })
   $scope.deleteMixTape = function(track){
     //delete a mixtape
     $scope.tracks.remove({_id: track._id})
@@ -43,7 +60,7 @@ function MixList($scope,$meteor,$location,$reactive){
 
   $scope.modalShow = false //access modal from delete button
 
-  $scope.toggleModal = function(){
+  $scope.toggleModal = function(track){
     $scope.modalShow = !$scope.modalShow
   }
 
@@ -57,7 +74,7 @@ function MixList($scope,$meteor,$location,$reactive){
   }
 
   $scope.getUserPlaylists = function(){
-    Meteor.call('getUserPlaylists',(err,data)=>{
+    Meteor.call('getUserPlaylists',function(err,data){
       if(err){
         console.log('playlist retrieval failed ',err)
       }
@@ -68,5 +85,6 @@ function MixList($scope,$meteor,$location,$reactive){
     })
      Session.set("playlists", data.body);
   }
+
 
 }

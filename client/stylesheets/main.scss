@@ -1,0 +1,258 @@
+@import 'colors';
+@import './mixins/mixins.scss';
+// @import '{cedla:mdi}/materialdesignicons.scss';
+
+.pagination {
+  list-style-type: none;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  li {
+    display: inline-block;
+    padding: 0.5rem;
+    margin: 0.5rem;
+  }
+}
+
+section {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	overflow: hidden;
+	position: relative;
+	padding: 50px 100px; 
+}
+
+.intro-top {
+	background-image: url("/intro-top.jpg");
+	color: $white;
+	.intro-text {
+		opacity: 0;
+		width: 50%;
+		padding-bottom: 50px;
+		transform: translateX(30px);
+    	transition: all 0.4s ease-in-out;
+    	&.is-showing {
+    		opacity: 1;
+      		transform: translateX(0px);
+    	}
+	}
+	h1 {
+		font-size: 64px;
+	}
+}
+
+.intro-mid {
+	background-image: url("/intro-mid.jpg");
+	@extend %clearfix;
+	h2 {
+		font-family: 'Cutive', serif; 
+	}
+	.left-triangle {
+		height: 100%;
+		width: 100%;
+		background: rgba(255,255,255,0.5);
+		position: relative;
+		padding-bottom: 50%;
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		transform-origin: bottom left;
+		transform: rotate(-40deg);
+	}
+	.right-triangle {
+		height: 100%;
+		width: 100%;
+		background: rgba(255,255,255,0.5);
+		position: relative;
+		padding-bottom: 50%;
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		transform-origin: top right;
+		transform: rotate(-40deg);
+	}
+
+	.mid-left-intro {
+		opacity: 0;
+		width: 25%;
+		padding-bottom: 100px;
+		position: relative;
+		transform: translateX(30px);
+    	transition: all 0.4s ease-in-out;
+		&.is-showing {
+			opacity: 1;
+			transform: translateX(0px);
+		}
+	}
+	.mid-right-intro {
+		opacity: 0;
+		text-align: right;
+		float: right;
+		width: 25%;
+		padding-top: 100px;	
+		position: relative;
+		transform: translateX(30px);
+    	transition: all 0.4s ease-in-out;
+		&.is-showing {
+			opacity: 1;
+			transform: translateX(0px);
+		}
+	}
+	@include clearfix;
+}
+
+.intro-bot {
+	background-image: url("/intro-bot.jpg");
+	background-attachment: fixed;
+	color: $white;
+	h2 {
+		font-family: 'Cutive', serif;  
+	}
+	.bot-left-intro {
+		opacity: 0;
+		float: left;
+		padding-bottom: 100px;
+		width: 33.3%;
+		transform: translateX(30px);
+    	transition: all 0.4s ease-in-out;
+		&.is-showing {
+    		opacity: 1;
+      		transform: translateX(0px);
+    	}
+	}  
+	.bot-right-intro {
+		opacity: 0;
+		text-align: right;
+		float: right;
+		width: 33.3%;
+		transform: translateX(30px);
+    	transition: all 0.4s ease-in-out;
+		&.is-showing {
+    		opacity: 1;
+      		transform: translateX(0px);
+    	}
+	}  
+	.spotify-logo {
+		bottom: -300px;
+		right: 50px;
+		position: absolute;
+	}
+	@include clearfix;
+
+}
+
+button {
+	opacity: 0;
+	margin-top: 20px;
+	display: inline-block;
+	cursor: pointer;
+	background: $pink;
+	color: $white;
+	text-decoration: none;
+	text-transform: uppercase;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 2px;
+	transform: scaleX (0.8) translateY(10px);
+    transition: all 0.4s ease-in-out;
+	&:focus {
+		outline: none;
+	}
+	&:hover {
+		background: darken($pink, 10%);
+	}
+	&.is-showing {
+		opacity: 1;
+  		transform: scaleX (0) translateY(0px);
+	}
+
+}
+
+footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	background: $dark-grey;
+	color: $white;
+	height: 100px;
+	p {
+		margin: 5px 0;
+	}
+}
+
+//Responsive breaks
+@media(max-width: 960px) {
+	.intro-mid {
+		color: $white;
+		.left-triangle,
+		.right-triangle {
+			display: none;
+		}
+		.mid-left-intro,
+		.mid-right-intro {
+			width: 40%;
+		}
+	}
+}
+
+@media(max-width: 700px) {
+	.intro-bot {
+		.spotify-logo {
+			width: 50%;
+			height: 50%;
+		}
+	}
+}
+
+@media(max-width: 640px) {
+	.intro-top {
+		.intro-text {
+			width: 100%;
+		}
+	}
+	.intro-mid {
+		.mid-left-intro,
+		.mid-right-intro {
+			width: 70%;
+		}
+	}
+	.intro-bot {
+		.bot-left-intro,
+		{
+			width: 100%;
+		}
+		.bot-right-intro  {
+			display: none;
+		}
+	}
+}
+
+@media(max-width: 450px) {
+	section {
+		padding: 50px;
+	}
+	.intro-top {
+		h1 {
+			font-size: 32px;
+		}
+	}
+	.intro-mid {
+		color: $white;
+		h2 {
+			font-size: 18px;
+		}
+		.mid-left-intro,
+		.mid-right-intro {
+			width: 100%;
+		}
+	}
+	.intro-bot {
+		h2 {
+			font-size: 18px;
+		}
+	}
+}
